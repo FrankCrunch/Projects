@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - GrowFood
+  - ProtectionFood
+  - DangerousFood
+  - Ball
+  - Gate
+  - Gate1
+  - Gate2
+  - Gate0
+  - ProtectGateFood
+  - Head
+  - Ass
+  - Holder
+  - Body
+  - Damager
+  - Worm
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - Parts1
+  - Parts2
+  - Parts3
+  - Parts4
+  - Floor
+  - Isolated
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: UI
+    uniqueID: 605751403
+    locked: 0
