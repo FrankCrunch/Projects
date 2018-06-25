@@ -7,9 +7,10 @@ public class TileDrawer: MonoBehaviour {
 	
 	//Скрипт занимается отрисовкой информации, полученной из tileInfo, и обрабатывает события мыши.
 	//Если тайлу надо взаимодействовать с другими тайлами, то он вызывает public методы BoardManager.
-
-	public Sprite[] whiteSprites, blackSprites;
-	public Image figureImage;
+	[SerializeField]
+	Sprite[] whiteSprites, blackSprites;
+	[SerializeField]
+	Image figureImage;
 	
 	[HideInInspector]
 	public TileInfo tileInfo; //Здесь скрипт получает информацию о тайле и фигуре на тайле и отражает ее на экране.
@@ -24,7 +25,7 @@ public class TileDrawer: MonoBehaviour {
 	
 	public void OnPointerClick()
 	{
-		BoardManager.instance.SelectFigure(tileInfo.col, tileInfo.row);
+		BoardManager.SelectFigure(ref tileInfo);
 	}
 	
 	public void OnPointerEnter()

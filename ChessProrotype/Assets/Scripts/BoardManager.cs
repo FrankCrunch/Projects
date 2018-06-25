@@ -5,16 +5,15 @@ using UnityEngine;
 public class BoardManager : MonoBehaviour {
 	//Скрипт создает тайлы, которые отрисовывают поле, и больше их не трогает.
 	//Управление полем происходит с помощью изменения массива tilesInfo.
-
-	public TileDrawer tileDrawer; //Префаб тайла, копии которого мы создаем.
+	[SerializeField]
+	TileDrawer tileDrawer; //Префаб тайла, копии которого мы создаем.
 	
 	[HideInInspector]
-	public TileInfo[,] tilesInfo; //Изменяя этот массив, изменяем поле. Каждый тайл имеет ссылку на информацию о себе в этом массиве.
+	TileInfo[,] tilesInfo; //Изменяя этот массив, изменяем поле. Каждый тайл имеет ссылку на информацию о себе в этом массиве.
 	
-	[HideInInspector]
-	public static BoardManager instance;
+	static BoardManager instance;
 	
-	int selectedRow = -1, selectedCol = -1;
+	TileInfo selectedTile = null;
 	List<TileInfo> savedMoves;
 	
 	void Awake(){
@@ -86,30 +85,25 @@ public class BoardManager : MonoBehaviour {
 	}
 	
 	//Метод проводит выделение тайла или его перемещение. При этом сохраняются изменения на поле.
-	public void SelectFigure(int col, int row){
-		if (selectedCol != -1 && (selectedCol != col || selectedRow != row)) {
-			TileInfo selectedTile = tilesInfo[selectedCol, selectedRow];
-			TileInfo destTile = tilesInfo[col, row];
+	public static void SelectFigure(ref TileInfo destTile){	
+		if (instance.selectedTile != null && destTile != instance.selectedTile) {
+			instance.SaveTileInfo(instance.selectedTile);
+			instance.SaveTileInfo(destTile);
 			
-			SaveTileInfo(selectedTile);
-			SaveTileInfo(destTile);
+			destTile.type = instance.selectedTile.type;
+			destTile.figureIsWhite = instance.selectedTile.figureIsWhite;
 			
-			selectedTile.selection = SelectionType.idle;
-			selectedCol = selectedRow = -1;
-			
-			destTile.type = selectedTile.type;
-			destTile.figureIsWhite = selectedTile.figureIsWhite;
-			
-			selectedTile.type = FigureType.empty;
+			instance.selectedTile.type = FigureType.empty;
+			instance.selectedTile.selection = SelectionType.idle;
+			instance.selectedTile = null;
 		} 
-		else if (tilesInfo[col, row].type != FigureType.empty && (selectedCol != col || selectedRow != row)){
-			tilesInfo[col, row].selection = SelectionType.selected;
-			selectedCol = col;
-			selectedRow = row;
+		else if (destTile.type != FigureType.empty && destTile != instance.selectedTile){
+			destTile.selection = SelectionType.selected;
+			instance.selectedTile = destTile;
 		} 
-		else if (selectedCol == col || selectedRow == row) {
-			tilesInfo[selectedCol, selectedRow].selection = SelectionType.idle;
-			selectedCol = selectedRow = -1;
+		else if (destTile == instance.selectedTile) {
+			instance.selectedTile.selection = SelectionType.idle;
+			instance.selectedTile = null;
 		}
 	}
 	
@@ -125,7 +119,7 @@ public class BoardManager : MonoBehaviour {
 	}
 	
 	public void Restart(){
-		for (int i = 0; i < savedMoves.Count; i++){
+		for (int i = savedMoves.Count - 1; i >= 0; i--){
 			TileInfo info = savedMoves[i];
 			tilesInfo[info.col, info.row].type = info.type;
 			tilesInfo[info.col, info.row].figureIsWhite = info.figureIsWhite;
