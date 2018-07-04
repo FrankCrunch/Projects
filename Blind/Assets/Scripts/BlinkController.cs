@@ -16,6 +16,7 @@ public class BlinkController : MonoBehaviour {
 		while (true) {
 			renderer.material.DOFade(0.3f, 0.5f);
 			renderer.material.DOFade(0f, 0.5f).SetDelay(0.5f);
+			yield return new WaitForSeconds(1f);
 		}
 	}
 
