@@ -19,5 +19,4 @@ public class BlinkController : MonoBehaviour {
 			yield return new WaitForSeconds(1f);
 		}
 	}
-
 }
