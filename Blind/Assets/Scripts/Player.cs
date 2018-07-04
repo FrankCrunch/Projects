@@ -7,7 +7,7 @@ public class Player : MonoBehaviour {
 	[SerializeField]
 	float speed;
 	[SerializeField]
-	GameObject camera;
+	GameObject camera, cameraParent;
 
 	Rigidbody rb;
 
@@ -18,6 +18,6 @@ public class Player : MonoBehaviour {
 	void Update(){
 		Vector3 vel = camera.transform.forward * speed;
 		rb.velocity = new Vector3 (vel.x, rb.velocity.y, vel.z);
-		camera.transform.position = transform.position;
+		cameraParent.transform.position = transform.position;
 	}
 }

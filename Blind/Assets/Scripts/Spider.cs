@@ -6,18 +6,19 @@ using DG.Tweening;
 public class Spider : MonoBehaviour {
 	
 	[SerializeField]
-	Vector3 destination;
-	
-	Animation animation;
+	ParticleSystem ps;
 
 	void Start () {
-		animation = GetComponent<Animation>();
-		
-		transform.DOMove(destination, 4f, false);
+		StartCoroutine(RepeatScreaming());
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
+	IEnumerator RepeatScreaming(){
+		while (true){	
+			SoundManager.PlaySpiderSound();
+			for (int i = 0; i < 6; i++){
+				ps.Emit(100);
+				yield return new WaitForSeconds(2f);
+			}
+		}
 	}
 }
